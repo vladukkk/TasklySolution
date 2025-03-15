@@ -1,0 +1,148 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - TasklySolution.Presentation</title>
+    <script type="importmap"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/TasklySolution.Presentation.styles.css" asp-append-version="true" />
+
+    <style>
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #FAFBFF;
+            background: linear-gradient(to bottom, #f8f9ff, #e3e6f5);
+        }
+
+        .sidebar {
+            height: 100vh; 
+            width: 250px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar .nav-link {
+            font-size: 18px;
+            padding: 10px 10px;
+        }
+            
+        .content {
+            margin-left: 260px;
+            padding: 20px;
+        }
+
+        .main-page-container {
+            margin-left: 250px;
+            margin-right: 50px;
+        }
+
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .nav-link::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 3px;
+            background-color: #5932EA;
+            transition: width 0.3s ease-in-out;
+        }
+
+        .nav-link:hover::before {
+            width: 100%;
+        }
+
+        .nav-link.active {
+            background-color: #5932EA;
+            color: white !important;
+            border-radius: 5px;
+            position: relative;
+            transition: transform 0.2s ease-in-out;
+        }
+
+         .nav-link.active::after {
+             content: "✔";
+             position: absolute;
+             right: 10px;
+             font-size: 14px;
+             color: white;
+             opacity: 0;
+             transition: opacity 0.3s ease-in-out;
+         }
+
+         .nav-link.active:hover::after {
+             opacity: 1;
+         }
+
+        .nav-link:hover {
+            border-radius: 5px;
+            transform: scale(1.05);
+        }
+
+
+    </style>
+
+</head>
+<body>
+
+    <div class="sidebar p-3 animate__animated animate__fadeInLeft" style="width: 250px; height: 100vh; position: fixed;">
+        <h2 class="head mb-4">
+            <img src="~/Taskly_ico.svg" alt="Taskly Logo" class="me-2"> 
+            Taskly
+        </h2>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link text-dark @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" ? "active" : "")" asp-controller="Home" asp-action="Index">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Tasks" ? "active" : "")" asp-controller="Tasks" asp-action="Index">Tasks</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Settings" ? "active" : "")" asp-controller="Settings" asp-action="Index">Settings</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Auth" ? "active" : "")" asp-controller="Auth" asp-action="Logout">Logout</a>
+            </li>
+        </ul>   
+
+    </div>
+
+    <div class="main-page-container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            if (sessionStorage.getItem("fromLogin") === "true") {
+                document.querySelector(".sidebar").classList.add("animate__fadeInLeft");
+                sessionStorage.removeItem("fromLogin"); // Видаляємо прапорець після спрацьовування анімації
+            } else {
+                document.querySelector(".sidebar").classList.remove("animate__animated");
+            }
+        });
+    </script>
+
+</body>
+</html>

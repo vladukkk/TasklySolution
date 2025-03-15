@@ -1,0 +1,101 @@
+﻿.tasks-conatiner {
+    background-color: white;
+    margin-top: 25px;
+    padding: 20px;
+    margin-top: 25px;
+    margin-left: 25px;
+    border-radius: 25px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* Запобігає виходу елементів */
+}
+
+.add-button {
+    position: fixed; /* Фіксує кнопку на екрані */
+    bottom: 50px; /* Відстань від нижнього краю */
+    right: 100px; /* Відстань від правого краю */
+    width: 80px;
+    height: 80px;
+    background-color: #5932EA;
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+    border: none;
+    border-radius: 50%; /* Робить кнопку круглою */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); /* Легка тінь */
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.add-button:hover {
+    background-color: #4124a9; /* Темніший синій при наведенні */
+    transform: scale(1.1); /* Збільшення при наведенні */
+}
+
+.filter-container {
+    background-color: white;
+    width: auto;
+    margin-left: 150px;
+    margin-right: 150px;
+    margin-top: 25px;
+    padding: 15px 25px;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    align-items: start;
+    border-radius: 25px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.search-container,
+.select-container {
+    width: 100%; /* Розтягує контейнери на всю ширину */
+    display: flex;
+}
+
+.filter-input {
+    flex: 1;
+    margin: 5px;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    font-size: 18px;
+    border-radius: 25px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.filter-input:focus {
+    border-color: #4124a9;
+}
+
+.filter-select {
+    padding: 8px 12px;
+    margin: 5px;
+    border: 1px solid white;
+    border-radius: 20px;
+    font-size: 18px;
+    color: white;
+    background-color: #5932EA;
+    cursor: pointer;
+}
+
+.filter-select:hover {
+    background-color: #4427ac;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 50px;
+    align-items: center;
+    margin-left: 50px;
+}
+
+.motivational-quote {
+    font-size: 24px;
+    color: #6c757d;
+    max-width: 50%;
+    text-align: right;
+}

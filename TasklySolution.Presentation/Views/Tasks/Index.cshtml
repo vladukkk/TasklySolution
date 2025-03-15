@@ -1,0 +1,75 @@
+﻿@model TasklySolution.Presentation.Models.TasksPanelViewModel
+
+@{
+    var lowPriorityTasks = Model?.Tasks?.Where(t => t.Priority.Title == "Low").ToList();
+    var mediumPriorityTasks = Model?.Tasks?.Where(t => t.Priority.Title == "Medium").ToList();
+    var highPriorityTasks = Model?.Tasks?.Where(t => t.Priority.Title == "High").ToList();
+}
+    
+<link rel="stylesheet" href="~/css/TasksPage/Tasks.css" asp-append-version="true" />
+
+<div class="header">
+    <h2 class="welcome">Hi, @Model.UserName 👋</h2>
+    @{
+        int random = new Random().Next(0, Model.Quotes.Count - 1);
+    }
+    <p class="motivational-quote">@Model.Quotes[random].Text</p>
+</div>
+
+
+<div class="filter-container">
+    <div class="search-container">
+        <input type="text" placeholder="🔍 Search by name..." class="filter-input"/>
+    </div>
+    <div class="select-container">
+        <select class="filter-select">
+            <option value="">Date</option>
+        </select>
+
+        <select class="filter-select">
+            <option value="">Select Tag</option>
+            @foreach (var tag in Model.Tags)
+            {
+                <option value="@tag.Id">@tag.Title</option>
+            }
+        </select>
+
+
+        <select class="filter-select">
+            <option value="active">Active</option>
+            <option value="done">Done</option>
+        </select>
+    </div>
+</div>
+
+
+<div class="container-fluid tasks-conatiner">
+    <div class="row justify-content-center tasks-container">
+        <div class="col-md-4 p-4    ">
+            <h4 class="text-success text-center mb-4">Low Priority</h4>
+            @foreach (var task in lowPriorityTasks)
+            {
+                @Html?.Partial("_TaskCard", task);
+            }
+        </div>
+
+        <div class="col-md-4 p-4">
+            <h4 class="text-warning text-center mb-4">Medium Priority</h4>
+            @foreach (var task in mediumPriorityTasks)
+            {
+                @Html.Partial("_TaskCard", task) ;
+            }
+        </div>  
+
+        <div class="col-md-4 p-4">
+            <h4 class="text-danger text-center mb-4">High Priority</h4>
+            @foreach (var task in highPriorityTasks)
+            {
+                @Html.Partial("_TaskCard", task);
+            }
+        </div>
+    </div>
+</div>
+
+<a asp-action="AddTask" class="add-button text-decoration-none">+</a>
+

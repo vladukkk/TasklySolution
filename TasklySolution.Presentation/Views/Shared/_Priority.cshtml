@@ -1,0 +1,23 @@
+﻿@model BusinessLogic.DTOs.Priority.PriorityDTO
+
+<link rel="stylesheet" href="~/css/assets/Priority.css" asp-append-version="true" />
+
+
+<div class="priority-card"
+     data-color="@Model.ColorHash"
+     style="background-color: @Model.ColorHash"
+    >
+    @Model.Title
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/2.1.0/chroma.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".priority-card").forEach(el => {
+            let color = el.getAttribute("data-color"); // Отримуємо колір з Razor
+            let darkenedColor = chroma(color).darken(1).hex(); // Темніший колір
+            el.style.borderColor = darkenedColor;
+            el.style.backgroundColor = color; // Можеш змінювати як треба
+        });
+    });
+</script>

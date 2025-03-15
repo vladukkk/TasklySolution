@@ -1,0 +1,83 @@
+﻿@model BusinessLogic.DTOs.User.Auth.LoginDTO
+
+@{
+    Layout = "_AuthLayout";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+
+<div class="container animate__animated animate__fadeInRight">
+    <div class="card shadow-lg p-4">
+        <h2 class="text-center mb-4">Login</h2>
+
+        <form asp-action="Login" method="post">
+            <div class="mb-3">
+                <label for="userNameInput" class="form-label fw-bold">Username</label>
+                <input asp-for="UserName" class="form-control" id="userNameInput" required placeholder="Enter your username">
+            </div>
+
+            <div class="mb-3">
+                <label for="passwordInput" class="form-label fw-bold">Password</label>
+                <input asp-for="Password" type="password" class="form-control" id="passwordInput" required placeholder="Enter your password">
+            </div>
+
+            <div class="d-grid">
+                <button type="submit" class="btn btn-lg">Log In</button>
+            </div>
+        </form>
+
+        <div class="text-center mt-3">
+            <small class="text-muted">Don't have an account? 
+                <a asp-action="Register" class="text-primary">Sign up</a>
+            </small>
+        </div>
+    </div>
+</div>
+
+<script>
+    sessionStorage.setItem("fromLogin", "true"); // Ставимо прапорець при логіні
+</script>
+
+<style>
+    .container {
+        max-width: 500px;
+        margin-top: 300px;
+    }
+
+    .card {
+        border-radius: 15px;
+        background: #ffffff;
+        transition: 0.3s;
+    }
+
+
+    .form-control {
+        transition: 0.2s;
+    }
+
+    .form-control:focus {
+        border-color: #5932EA;
+        box-shadow: 0 0 5px rgba(89, 50, 234, 0.5);
+    }
+
+    .btn {
+        border-radius: 15px;
+        background-color: #5932EA;
+        color: white;
+    }
+    
+    .btn:hover {
+       background-color: #4124a9;
+       color: white;
+    }
+</style>

@@ -1,0 +1,12 @@
+﻿.priority-card {
+    display: inline-block; /* Робить ширину залежною від вмісту */
+    padding: 5px 15px; /* Відступи навколо тексту */
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 20px;
+    margin: 10px;
+    border: 2px solid white;
+    color: white;
+    white-space: nowrap; /* Запобігає переносу тексту */
+    max-width: fit-content; /* Гарантує, що елемент не розтягується */
+}
