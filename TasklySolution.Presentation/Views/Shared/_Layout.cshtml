@@ -11,14 +11,11 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/TasklySolution.Presentation.styles.css" asp-append-version="true" />
 
+    <link rel="stylesheet" href="~/css/theme.css" asp-append-version="true" />
+
     <style>
         * {
             font-family: 'Poppins', sans-serif;
-        }
-
-        body {
-            background-color: #FAFBFF;
-            background: linear-gradient(to bottom, #f8f9ff, #e3e6f5);
         }
 
         .sidebar {
@@ -27,7 +24,7 @@
             position: fixed;
             left: 0;
             top: 0;
-            background-color: white;
+            background-color: var(--div-color);
             padding: 20px;
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
         }
@@ -49,6 +46,7 @@
 
         .nav-link {
             position: relative;
+            color: var(--second-text-color);
             transition: all 0.3s ease-in-out;
         }
 
@@ -91,6 +89,7 @@
 
         .nav-link:hover {
             border-radius: 5px;
+            color: var(--second-text-color);
             transform: scale(1.05);
         }
 
@@ -107,19 +106,19 @@
         </h2>
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link text-dark @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" ? "active" : "")" asp-controller="Home" asp-action="Index">Home</a>
+                <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" ? "active" : "")" asp-controller="Home" asp-action="Index">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-dark @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Tasks" ? "active" : "")" asp-controller="Tasks" asp-action="Index">Tasks</a>
+                <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Tasks" ? "active" : "")" asp-controller="Tasks" asp-action="Index">Tasks</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-dark @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Settings" ? "active" : "")" asp-controller="Settings" asp-action="Index">Settings</a>
+                <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Settings" ? "active" : "")" asp-controller="Settings" asp-action="Index">Settings</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-dark @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Auth" ? "active" : "")" asp-controller="Auth" asp-action="Logout">Logout</a>
+                <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Auth" ? "active" : "")" asp-controller="Auth" asp-action="Logout">Logout</a>
             </li>
-        </ul>   
-
+        </ul>       
+        <button id="theme-toggle" class="theme-toggle">🌙</button>
     </div>
 
     <div class="main-page-container">
@@ -131,6 +130,9 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script src="~/js/theme-toggle.js" asp-append-version="true"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 
     <script>

@@ -2,13 +2,12 @@
 
 <link rel="stylesheet" href="~/css/assets/Task.css" asp-append-version="true" />
 
+<div class="task-card"
+     data-task-id="@Model.Id">
 
-<div class="task-card">
     <div class="up-row-container">
         @Html.Partial("_Priority", Model.Priority)
-        <p class="date">
-            @Model.CreatedAt.ToString("dd MMMM yyyy, HH:mm")
-        </p>
+        <p class="date">@Model.CreatedAt.ToString("dd MMMM yyyy, HH:mm")</p>
     </div>
     <div class="main">
         <h3 class="title">@Model.Title</h3>

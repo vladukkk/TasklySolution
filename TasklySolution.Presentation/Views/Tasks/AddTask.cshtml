@@ -1,8 +1,13 @@
 ﻿@model TasklySolution.Presentation.Models.AddTaskViewModel
 
+<link rel="stylesheet" href="~/css/TasksPage/AddTask.css" />
+
 <div class="container">
     <div class="card shadow-lg p-4">
-        <h2 class="text-center mb-4">Task Creator</h2>
+        <h2 class="text-center mb-4">Task Creator
+            <img src="~/Taskly_ico.svg" alt="Taskly Logo" class="me-2">
+
+        </h2>
 
         <form asp-controller="Tasks" asp-action="AddTask" method="post">
             <div class="mb-3">
@@ -24,7 +29,7 @@
                 <label class="fw-bold">Priority</label>
                 <div class="custom-dropdown">
                     <button id="selected-priority">Select</button>
-                    <div class="dropdown-list">
+                    <div class="dropdown-list" id="priorities-list">
                         @foreach (var priority in Model.Priorities)
                         {
                             <div class="custom-priority" data-id="@priority.Id" data-color="@priority.ColorHash">
@@ -40,14 +45,20 @@
 
             <div class="mb-3">
                 <label class="fw-bold">Tags:</label>
-                <select class="form-select" name="TagIds" multiple>
-                    @foreach (var tag in Model.Tags)
-                    {
-                        <option value="@tag.Id">@tag.Title</option>
-                    }
-                </select>
-                <small class="text-muted">Hold <kbd>Ctrl</kbd> (Windows) or <kbd>Cmd</kbd> (Mac) to select multiple tags</small>
+                <div class="custom-multiselect">
+                    <button type="button" class="select-btn" id="select-tag">Select Tags</button>
+                    <div class="dropdown-list" id="tags-list">
+                        @foreach (var tag in Model.Tags)
+                        {
+                            <label class="custom-option">
+                                <input type="checkbox" name="TagIds" value="@tag.Id" />
+                                @Html.Partial("_Tag", tag)
+                            </label>
+                        }
+                    </div>
+                </div>
             </div>
+
 
             <div class="d-grid">
                 <button type="submit" class="btn btn-lg">Add Task</button>
@@ -56,122 +67,4 @@
     </div>
 </div>
 
-<style>
-    .container {
-        margin-top: 150px;
-        max-width: 600px;
-    }
-
-    .card {
-        border-radius: 15px;
-        background: #ffffff;
-        transition: 0.3s;
-    }
-
-    .form-control,
-    .form-select {
-        transition: 0.2s;
-    }
-
-    .form-control:focus,
-    .form-select:focus {
-        border-color: #5932EA;
-        box-shadow: 0 0 5px rgba(89, 50, 234, 0.5);
-    }
-
-    .btn {
-        border-radius: 15px;
-        background-color: #5932EA;
-        color: white;
-    }
-    .btn:hover {
-        background-color: #4124a9;
-        color: white;
-    }
-
-    .custom-dropdown {
-        position: relative;
-        display: inline-block;
-        width: 100px;
-    }
-
-    .custom-dropdown button {
-        width: 100%;
-        padding: 8px;
-        font-size: 16px;
-        border-radius: 25px;
-        background-color: white;
-        cursor: pointer;
-        border: 1px solid #ccc;
-    }
-
-    .dropdown-list {
-        display: none;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: 100%;
-        background: white;
-        border: 1px solid #ccc;
-        box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
-        z-index: 10;
-    }
-
-    .custom-priority {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 8px;
-        cursor: pointer;
-    }
-
-    .custom-priority:hover {
-        background-color: #f0f0f0;
-    }
-
-    .priority-dot {
-        width: 15px;
-        height: 15px;
-        border-radius: 50%;
-        display: inline-block;
-    }
-</style>
-
-<script>
-       document.addEventListener("DOMContentLoaded", function () {
-        const dropdownButton = document.getElementById("selected-priority");
-        const dropdownList = document.querySelector(".dropdown-list");
-        const priorityInput = document.getElementById("priorityId");
-
-        dropdownButton.addEventListener("click", function (event) {
-            event.preventDefault();
-            dropdownList.style.display = dropdownList.style.display === "block" ? "none" : "block";
-        });
-
-        document.querySelectorAll(".custom-priority").forEach(item => {
-            item.addEventListener("click", function () {
-                let text = item.innerText.trim();
-                let color = item.getAttribute("data-color");
-                let id = item.getAttribute("data-id");
-
-                if (id) {  // Переконайтеся, що ID не порожній
-                    dropdownButton.innerText = text;
-                    dropdownButton.style.backgroundColor = color;
-                    dropdownButton.style.color = "#fff";
-                    priorityInput.value = id; // Оновлення прихованого поля
-
-                    console.log("Selected Priority ID:", id);
-                }
-
-                dropdownList.style.display = "none";
-            });
-        });
-
-        document.addEventListener("click", function (e) {
-            if (!dropdownButton.contains(e.target) && !dropdownList.contains(e.target)) {
-                dropdownList.style.display = "none";
-            }
-        });
-    });
-
-</script>
+<script src="~/js/AddTask.js"/>

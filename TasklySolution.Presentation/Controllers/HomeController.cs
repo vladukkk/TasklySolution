@@ -1,7 +1,9 @@
 using BusinessLogic.Contracts;
+using BusinessLogic.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using TasklySolution.Presentation.Models;
 
 
 namespace TasklySolution.Presentation.Controllers
@@ -21,9 +23,15 @@ namespace TasklySolution.Presentation.Controllers
 
         public async Task<IActionResult> Index()
         {
-            string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var aboutMe = await _accountService.GetCurrentUser(userId);
-            return View(aboutMe);
+            string? userId = User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            var viewModel = new HomeViewModel
+            {
+                User = await _accountService.GetCurrentUser(userId),
+                UserStats = await _accountService.GetUserStats(userId)
+            };
+
+            return View(viewModel);
         }
 
         public IActionResult Privacy()

@@ -5,13 +5,12 @@
     margin-bottom: 15px;
     flex-direction: column;
     overflow: hidden;
-    background-color: #FAFBFF;
+    background-color: var(--background-color);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out, background-color 0.3s ease-out;
 }
 
 .main {
-    background-color: white;
+    background-color: var(--div-color);
     border-radius: 20px;
     padding: 15px;
     min-height: 150px;
@@ -22,13 +21,13 @@
 }
 
 .desc {
-    color: #757373;
+    color: var(--second-text-color);
     word-wrap: break-word;
     margin-top: 10px;
 }
 
 .date {
-    color: black;
+    color: var(--text-color);
     font-size: 18px;
     margin: 15px;
     margin-left: auto;

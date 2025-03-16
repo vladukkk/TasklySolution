@@ -1,0 +1,31 @@
+﻿:root {
+    --text-color: #000000;
+    --second-text-color: #6c757d;
+    --div-color: white;
+    --background-color: #f8f9ff;
+    --input-border-color: 
+}
+
+[data-theme="dark"] {
+    --text-color: #E0E0E0;
+    --second-text-color: #A0A0A0;
+    --div-color: #1E1E1E;
+    --background-color: #121212;
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+.theme-toggle {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    padding: 10px;
+    background-color: var(--text-color);
+    color: var(--background-color);
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}

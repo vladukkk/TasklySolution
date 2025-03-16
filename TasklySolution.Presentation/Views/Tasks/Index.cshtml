@@ -4,22 +4,32 @@
     var lowPriorityTasks = Model?.Tasks?.Where(t => t.Priority.Title == "Low").ToList();
     var mediumPriorityTasks = Model?.Tasks?.Where(t => t.Priority.Title == "Medium").ToList();
     var highPriorityTasks = Model?.Tasks?.Where(t => t.Priority.Title == "High").ToList();
+    var randomQuote = Model?.Quotes?.Any() == true ? Model?.Quotes[new Random().Next(0, Model.Quotes.Count)]?.Text : "Stay positive!";
 }
-    
+
 <link rel="stylesheet" href="~/css/TasksPage/Tasks.css" asp-append-version="true" />
+
+<style>
+    .fixed {
+        position: fixed;
+        top: 0;
+        width: 1300px;
+        margin-left: 150px;
+        margin-right: 150px;
+        z-index: 1000;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Додатковий ефект */
+    }
+
+</style>
 
 <div class="header">
     <h2 class="welcome">Hi, @Model.UserName 👋</h2>
-    @{
-        int random = new Random().Next(0, Model.Quotes.Count - 1);
-    }
-    <p class="motivational-quote">@Model.Quotes[random].Text</p>
+    <p class="motivational-quote">@randomQuote</p>
 </div>
 
-
-<div class="filter-container">
+<div class="filter-container" id="filter-container">
     <div class="search-container">
-        <input type="text" placeholder="🔍 Search by name..." class="filter-input"/>
+        <input type="text" placeholder="🔍 Search by name..." class="filter-input" />
     </div>
     <div class="select-container">
         <select class="filter-select">
@@ -34,7 +44,6 @@
             }
         </select>
 
-
         <select class="filter-select">
             <option value="active">Active</option>
             <option value="done">Done</option>
@@ -42,14 +51,13 @@
     </div>
 </div>
 
-
-<div class="container-fluid tasks-conatiner">
-    <div class="row justify-content-center tasks-container">
-        <div class="col-md-4 p-4    ">
+<div class="tasks-conatiner">
+    <div class="row justify-content-center">
+        <div class="col-md-4 p-4">
             <h4 class="text-success text-center mb-4">Low Priority</h4>
             @foreach (var task in lowPriorityTasks)
             {
-                @Html?.Partial("_TaskCard", task);
+                @Html.Partial("_TaskCard", task)
             }
         </div>
 
@@ -57,19 +65,41 @@
             <h4 class="text-warning text-center mb-4">Medium Priority</h4>
             @foreach (var task in mediumPriorityTasks)
             {
-                @Html.Partial("_TaskCard", task) ;
+                @Html.Partial("_TaskCard", task)
             }
-        </div>  
+        </div>
 
         <div class="col-md-4 p-4">
             <h4 class="text-danger text-center mb-4">High Priority</h4>
             @foreach (var task in highPriorityTasks)
             {
-                @Html.Partial("_TaskCard", task);
+                @Html.Partial("_TaskCard", task)
             }
         </div>
     </div>
 </div>
 
+
 <a asp-action="AddTask" class="add-button text-decoration-none">+</a>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const quotes = @Html.Raw(Json.Serialize(Model.Quotes));
+        const quoteElement = document.querySelector(".motivational-quote");
+
+        if (quotes.length === 0) {
+            quoteElement.innerText = "Stay positive!";  
+            return;
+        }
+
+        function changeQuote() {
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            quoteElement.innerText = quotes[randomIndex]?.text || "Stay positive!";
+        }
+
+        setInterval(changeQuote, 30000);
+    });
+
+</script>
+
+<script src="~/js/TasksPage.js" />

@@ -106,7 +106,7 @@ namespace BusinessLogic.Services
 
             var (existingTags, existingPriority) = await CheckExistingEntities(task);
 
-            taskEntity.Tags = _mapper.Map<List<TagEntity>>(existingTags);
+            taskEntity.Tags = existingTags;
             taskEntity.Priority = existingPriority;
             taskEntity.IsCompleted = false;
             taskEntity.CreatedAt = DateTime.Now;

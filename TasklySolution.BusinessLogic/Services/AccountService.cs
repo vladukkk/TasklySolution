@@ -26,8 +26,10 @@ namespace BusinessLogic.Services
             _mapper = mapper;
         }
 
-        public async Task<UserDTO?> GetCurrentUser(string userId)
+        public async Task<UserDTO?> GetCurrentUser(string? userId)
         {
+            if (userId is null) return null;
+
             var user = await _userManager.FindByIdAsync(userId);
             return _mapper.Map<UserDTO>(user);
         }
@@ -74,8 +76,10 @@ namespace BusinessLogic.Services
         }
 
 
-        public async Task<UserStatsDTO?> GetUserStats(string userId)
+        public async Task<UserStatsDTO?> GetUserStats(string? userId)
         {
+            if (userId is null) return null;
+
             var include = new Expression<Func<TaskEntity, object>>[] {
                 entity => entity.Priority,
                 entity => entity.Tags

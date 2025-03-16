@@ -46,6 +46,22 @@ namespace TasklySolution.Presentation.Controllers
             return View(taksViewModel);
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Task(Guid id)
+        {
+            var task = await _taskService.GetById(id);
+            if (task == null) return NotFound();
+            return View(task);
+        }
+        
+        [HttpPut("Complete/{id}")]
+        public async Task<IActionResult> CompleteTask(Guid id)
+        {
+            await _taskService.ExecuteTask(id);
+            return Ok();
+        }
+
+
         [HttpGet]
         public async Task<IActionResult> AddTask()
         {
@@ -67,7 +83,6 @@ namespace TasklySolution.Presentation.Controllers
         {
             if (!ModelState.IsValid)
             {
-                //return View("AddTask", task);
                 return BadRequest(ModelState);
             }
 

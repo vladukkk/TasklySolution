@@ -1,18 +1,183 @@
-﻿@model BusinessLogic.DTOs.User.UserDTO
+﻿@model TasklySolution.Presentation.Models.HomeViewModel
 
 <style>
-	.info-container {
-		background-color: white;
-		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-		border-radius: 25px;
-		margin: 50px;
-		padding: 15px;
-		width: 300px;
-	}
+    .info-container {
+        background-color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 25px;
+        margin: 50px;
+        padding: 15px;
+        width: 300px;
+    }
 
+    .chart-container {
+        width: 50%;
+        height: 300px;
+    }
+
+    .table-container {
+        background-color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 25px;
+        padding: 15px;
+        width: 500px;
+        height: 700px;
+    }
+
+    .stat-container {
+        display: flex;
+        margin: 50px;
+        gap: 100px; /* Додаємо відступи між елементами */
+        flex-wrap: wrap; /* Це дозволяє елементам переноситись на новий рядок при малих екранах */
+    }
 </style>
 
-<div class="info-container">
-	<p>@Model.UserName</p>
-	<p>@Model.Email</p>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+    /* Стиль для канвасу */
+    #myChart {
+        width: 100px;
+        height: 100px;
+    }
+</style>
+
+    <!-- User Info Section -->
+    <div class="info-container">
+        <p><strong>@Model?.User?.UserName</strong></p>
+        <p>@Model?.User?.Email</p>
+    </div>
+        
+
+ <div class="stat-container">
+    <div class="table-container">
+        <h4>Task Tag Statistics</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Tag</th>
+                    <th>Task Count</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var tagStat in Model?.UserStats?.TagStats)
+                {
+                    <tr>
+                        <td>@Html.Partial("_Tag", tagStat.Tag)</td>
+                        <td>@tagStat?.TagCount</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div>
+            <canvas id="tagsChart"></canvas>
+        </div>
+
+    </div>
+
+
+    <div class="table-container">
+        <h4>Task Priority Statistics</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Priority</th>
+                    <th>Task Count</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var priorityStat in Model?.UserStats?.PriorityStats)
+                {
+                    <tr>
+                        <td>@Html.Partial("_Priority",priorityStat.Priority)</td>
+                        <td>@priorityStat?.PriorityCount</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div>
+            <canvas id="priority-chart"></canvas>
+        </div>
+    </div>
+
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Переконуємося, що елемент з id tagsChart існує
+        const tagChart = document.getElementById('tagsChart');
+        if (!tagChart) {
+            console.error("Canvas element with id 'tagsChart' not found.");
+            return;
+        }
+
+        // Отримуємо дані моделі
+        var model = @Html.Raw(Json.Serialize(Model));
+        console.log(model);
+
+        // Перевірка наявності tagStats
+        if (!model.userStats || !model.userStats.tagStats) {
+            console.error("No tagStats found.");
+            return;
+        }
+
+        // Створення масивів для тагів і їх кількості
+        var tagLabels = model.userStats.tagStats.map(stat => stat.tag.Title);
+        var tagData = model.userStats.tagStats.map(stat => stat.tagCount);
+        var tagBackgroundColors = model.userStats.tagStats.map(stat => stat.tag.colorHash);
+
+        // Дані для графіка тегів
+        const tagChartData = {
+            labels: tagLabels, // Теги
+            datasets: [{
+                label: 'Task Count by Tag',
+                data: tagData, // Кількість задач
+                backgroundColor: tagBackgroundColors, // Кольори для кожного тега
+                hoverOffset: 4
+            }]
+        };
+
+        // Налаштування графіка тегів
+        const tagConfig = {
+            type: 'doughnut', // Тип графіка
+            data: tagChartData,
+        };
+
+        // Створення графіка тегів
+        const tagCtx = tagChart.getContext('2d');
+        new Chart(tagCtx, tagConfig); // Створюємо графік для тагів
+
+        // Перевірка наявності priorityStats
+        const priorityChart = document.getElementById("priority-chart");
+        if (!priorityChart) {
+            console.error("Canvas element with id 'priority-chart' not found.");
+            return;
+        }
+
+        // Створення масивів для пріоритетів і їх кількості
+        var priorityLabels = model.userStats.priorityStats.map(stat => stat.priority.Title);
+        var priorityData = model.userStats.priorityStats.map(stat => stat.priorityCount);
+        var priorityBackgroundColor = model.userStats.priorityStats.map(stat => stat.priority.colorHash);
+
+        // Дані для графіка пріоритетів
+        const priorityChartData = {
+            labels: priorityLabels, // Пріоритети
+            datasets: [{
+                label: 'Task Count by Priority',
+                data: priorityData, // Кількість задач
+                backgroundColor: priorityBackgroundColor, // Кольори для кожного пріоритету
+                hoverOffset: 4
+            }]
+        };
+
+        // Налаштування графіка пріоритетів
+        const priorityConfig = {
+            type: 'pie', // Тип графіка
+            data: priorityChartData,
+        };
+
+        // Створення графіка пріоритетів
+        const priorityCtx = priorityChart.getContext('2d');
+        new Chart(priorityCtx, priorityConfig); // Створюємо графік для пріоритетів
+    });
+</script>
