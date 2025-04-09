@@ -8,7 +8,6 @@
 }
 
 <link rel="stylesheet" href="~/css/TasksPage/Tasks.css" asp-append-version="true" />
-
 <style>
     .fixed {
         position: fixed;
@@ -20,7 +19,13 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Додатковий ефект */
     }
 
+    a.text-decoration-none {
+        color: inherit; /* Наслідує колір від батьківського елемента */
+        text-decoration: none; /* Видаляє підкреслення */
+    }
 </style>
+
+<div id="modalContainer"></div>
 
 <div class="header">
     <h2 class="welcome">Hi, @Model.UserName 👋</h2>
@@ -57,7 +62,9 @@
             <h4 class="text-success text-center mb-4">Low Priority</h4>
             @foreach (var task in lowPriorityTasks)
             {
-                @Html.Partial("_TaskCard", task)
+                <a asp-action="Task" asp-controller="Tasks" asp-route-id="@task.Id" class="text-decoration-none">
+                    @Html.Partial("_TaskCard", task)
+                </a>
             }
         </div>
 
@@ -65,7 +72,9 @@
             <h4 class="text-warning text-center mb-4">Medium Priority</h4>
             @foreach (var task in mediumPriorityTasks)
             {
-                @Html.Partial("_TaskCard", task)
+                <a asp-action="Task" asp-controller="Tasks" asp-route-id="@task.Id" class="text-decoration-none">
+                    @Html.Partial("_TaskCard", task)
+                </a>
             }
         </div>
 
@@ -73,7 +82,9 @@
             <h4 class="text-danger text-center mb-4">High Priority</h4>
             @foreach (var task in highPriorityTasks)
             {
-                @Html.Partial("_TaskCard", task)
+                <a asp-action="Task" asp-controller="Tasks" asp-route-id="@task.Id" class="text-decoration-none">
+                    @Html.Partial("_TaskCard", task)
+                </a>
             }
         </div>
     </div>

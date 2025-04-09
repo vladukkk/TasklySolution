@@ -26,7 +26,7 @@ namespace TasklySolution.Presentation.Controllers
             _quotesService = quotesService;
         }
 
-        [HttpGet]
+        [HttpGet("Index")]
         public async Task<IActionResult> Index()
         {
             string? userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -51,16 +51,16 @@ namespace TasklySolution.Presentation.Controllers
         {
             var task = await _taskService.GetById(id);
             if (task == null) return NotFound();
+
             return View(task);
         }
         
-        [HttpPut("Complete/{id}")]
+        [HttpPost("Complete/{id}")]
         public async Task<IActionResult> CompleteTask(Guid id)
         {
             await _taskService.ExecuteTask(id);
-            return Ok();
+            return RedirectToAction("Index");
         }
-
 
         [HttpGet]
         public async Task<IActionResult> AddTask()
@@ -89,6 +89,13 @@ namespace TasklySolution.Presentation.Controllers
             string? userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             await _taskService.AddTask(task, userId);
 
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost("Delete/{id}")]
+        public async Task<IActionResult> DeleteTask(Guid id)
+        {
+            await _taskService.DeleteTask(id);
             return RedirectToAction("Index");
         }
     }

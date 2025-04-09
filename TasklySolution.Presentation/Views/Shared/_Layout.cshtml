@@ -100,8 +100,8 @@
 <body>
 
     <div class="sidebar p-3 animate__animated animate__fadeInLeft" style="width: 250px; height: 100vh; position: fixed;">
-        <h2 class="head mb-4">
-            <img src="~/Taskly_ico.svg" alt="Taskly Logo" class="me-2"> 
+        <h2 class="head mb-4 mt-4">
+            <img src="~/Taskly_ico.svg" alt="Taskly Logo" class="ms-4" style="width: 40px; height: auto">
             Taskly
         </h2>
         <ul class="nav flex-column">
@@ -116,6 +116,9 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Auth" ? "active" : "")" asp-controller="Auth" asp-action="Logout">Logout</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" ? "active" : "")" asp-controller="Home" asp-action="Privacy">Test Animation</a>
             </li>
         </ul>       
         <button id="theme-toggle" class="theme-toggle">🌙</button>
@@ -145,6 +148,6 @@
             }
         });
     </script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.10.2/lottie.min.js"></script>
 </body>
 </html>

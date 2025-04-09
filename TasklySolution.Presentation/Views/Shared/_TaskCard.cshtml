@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="~/css/assets/Task.css" asp-append-version="true" />
 
 <div class="task-card"
-     data-task-id="@Model.Id">
+data-task-id="@Model.Id">
 
     <div class="up-row-container">
         @Html.Partial("_Priority", Model.Priority)
@@ -19,5 +19,11 @@
                 @Html.Partial("_Tag", tag)
             }
         </div>
+        @{
+            if(Model.IsCompleted)
+            {
+                <img src="~/Done.svg" alt="Execute" width="24" height="24" />
+            }
+        }
     </div>
 </div>

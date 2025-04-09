@@ -4,9 +4,7 @@ using BusinessLogic.DTOs.Task;
 using BusinessLogic.Exceptions;
 using DataAccess.Contracts;
 using DataAccess.EntityModels;
-using Microsoft.AspNetCore.Http;
 using System.Linq.Expressions;
-using System.Security.Claims;
 
 namespace BusinessLogic.Services
 {
