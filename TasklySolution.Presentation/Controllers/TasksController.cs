@@ -59,6 +59,7 @@ namespace TasklySolution.Presentation.Controllers
         public async Task<IActionResult> CompleteTask(Guid id)
         {
             await _taskService.ExecuteTask(id);
+            TempData["success"] = "congratulation";
             return RedirectToAction("Index");
         }
 
@@ -83,11 +84,14 @@ namespace TasklySolution.Presentation.Controllers
         {
             if (!ModelState.IsValid)
             {
+                TempData["error"] = "Invalid data";
                 return BadRequest(ModelState);
             }
 
             string? userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             await _taskService.AddTask(task, userId);
+
+            TempData["success"] = "added successfully";
 
             return RedirectToAction("Index");
         }
@@ -96,6 +100,7 @@ namespace TasklySolution.Presentation.Controllers
         public async Task<IActionResult> DeleteTask(Guid id)
         {
             await _taskService.DeleteTask(id);
+            TempData["success"] = "deleted successfully";
             return RedirectToAction("Index");
         }
     }
